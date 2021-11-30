@@ -1,55 +1,49 @@
 #include "Scene.h"
 
+//!Update sceny
 void Scene::update(float time) {
-    camera->update();
+    cameras[currentCameraIndex]->update();
 
-    // Use iterator to update all objects so we can remove while iterating
-    auto i = std::begin(objects);
+    //Urcime zaciatok zoznamu cez iteratory
+    auto object_iterator = std::begin(objects);
 
-    while (i != std::end(objects)) {
-        // Update and remove from list if needed
-        auto obj = i->get();
-        if (!obj->update(*this, time))
-            i = objects.erase(i); // NOTE: no need to call destructors as we store shared pointers in the scene
+    //Kym neprejdeme cely zoznam
+    while (object_iterator != std::end(objects)) {
+        //Pre kazdy objekt
+        auto current_object = object_iterator->get();
+        //Ak objekt po update vrati false, bude odstraneny
+        if (!current_object->update(*this, time))
+            //Odstranime objekt zo zoznamu
+            object_iterator = objects.erase(object_iterator);
+        //Inak sa posunieme na dalsi objekt
         else
-            ++i;
+            object_iterator++;
     }
 }
 
+//!Renderovanie sceny
 void Scene::render() {
-    // Simply render all objects
+    //Prejdeme zoznamom a narenderujeme kazdy objekt
     for ( auto& obj : objects )
         obj->render(*this);
 }
 
-std::vector<Object*> Scene::intersect(const glm::vec3 &position, const glm::vec3 &direction) {
-    std::vector<Object*> intersected = {};
-    for(auto& object : objects) {
-        // Collision with sphere of size object->scale.x
-        auto oc = position - object->position;
-        auto radius = object->scale.x;
-        auto a = glm::dot(direction, direction);
-        auto b = glm::dot(oc, direction);
-        auto c = glm::dot(oc, oc) - radius * radius;
-        auto dis = b * b - a * c;
+//!Posunieme na predchadzajucu kameru
+void Scene::prevCamera()
+{
+    //Zvacsime aktualny index
+    currentCameraIndex++;
+    //Ak je index mensi ako 0, posunieme sa na koniec zoznamu
+    if (currentCameraIndex < 0)
+        currentCameraIndex = cameras.size() - 1;
+}
 
-        if (dis > 0) {
-            auto e = sqrt(dis);
-            auto t = (-b - e) / a;
-
-            if ( t > 0 ) {
-                intersected.push_back(object.get());
-                continue;
-            }
-
-            t = (-b + e) / a;
-
-            if ( t > 0 ) {
-                intersected.push_back(object.get());
-                continue;
-            }
-        }
-    }
-
-    return intersected;
+//!Prepneme na nasledujucu kameru
+void Scene::nextCamera()
+{
+    //Zmensime aktualny index
+    currentCameraIndex--;
+    //Ak index presahuje velkost vektoru, vratime sa na zaciatok zoznamu
+    if (currentCameraIndex >= cameras.size())
+        currentCameraIndex = 0;
 }

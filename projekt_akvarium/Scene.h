@@ -1,57 +1,35 @@
-//
-// Created by samue on 20/11/2021.
-//
-
 #pragma once
 
-#include <memory>
-#include <map>
-#include <list>
-
+//Headery z projektu:
 #include "Object.h"
 #include "Camera.h"
 
-/*
- * Scene is an object that will aggregate all scene related data
- * Objects are stored in a list of objects
- * Keyboard and Mouse states are stored in a map and struct
- */
+//STL kniznice:
+#include <iostream>
+#include <list>
+
+//!Trieda pre scenu
 class Scene {
 public:
-    /*!
-     * Update all objects in the scene
-     * @param time
-     */
+    //!Update objektov
     void update(float time);
 
-    /*!
-     * Render all objects in the scene
-     */
+    //!Renderovanie objektov
     void render();
 
-    /*!
-     * Pick objects using a ray
-     * @param position - Position in the scene to pick object from
-     * @param direction - Direction to pick objects from
-     * @return Objects - Vector of pointers to intersected objects
-     */
-    std::vector<Object*> intersect(const glm::vec3 &position, const glm::vec3 &direction);
+    //!Zoznam (vektor) kamier
+    std::vector< std::unique_ptr<Camera> > cameras;
 
-    // Camera object
-    std::unique_ptr<Camera> camera;
+    //!Aktualna kamera
+    int currentCameraIndex = 0;
 
-    // All objects to be rendered in scene
+    //!Zoznam objektov
     std::list< std::unique_ptr<Object> > objects;
 
-    // Keyboard state
-    std::map< int, int > keyboard;
+    //!Smer svetla
+    glm::vec3 lightDirection{0.0f, 0.0f, -1.0f};
 
-    // Lights, in this case using only simple directional diffuse lighting
-    glm::vec3 lightDirection{-1.0f, -1.0f, -1.0f};
-
-    // Store cursor state
-    struct cursor {
-        double x, y;
-        bool left, right;
-    };
+    //!Presuny medzi kamerami
+    void prevCamera();
+    void nextCamera();
 };
