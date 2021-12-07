@@ -1,16 +1,22 @@
 #pragma once
 
 #include "Object.h"
+#include "AquariumGround.h"
+#include "AquariumCorner.h"
+#include "AquariumWallLong.h"
+#include "AquariumWallShort.h"
 
 #include <ppgso/ppgso.h>
+
+#include <list>
 
 class Aquarium final : public Object
 {
 private:
-    //!Premenne potrebne na renderovanie objektu
-    static std::unique_ptr<ppgso::Mesh> mesh;
-    static std::unique_ptr<ppgso::Shader> shader;
-    static std::unique_ptr<ppgso::Texture> texture;
+    std::list<std::unique_ptr<Object>> components;
+
+    //Skalovanie
+    float scale_amount;
 
 public:
     //!Konstruktor

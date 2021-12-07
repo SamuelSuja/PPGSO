@@ -6,9 +6,10 @@
 #include "BlueFish.h"
 #include "Aquarium.h"
 #include "Snail.h"
-#include "Grass.h"
+#include "Palm.h"
 #include "Castle.h"
 #include "Coral.h"
+#include "AquariumGround.h"
 
 //!Vytvorenie sceny
 void SceneWindow::initScene() {
@@ -19,10 +20,38 @@ void SceneWindow::initScene() {
     //Vytvorime kamery:
     auto camera = std::make_unique<Camera>();
     camera->setProjection(90.0f, (float)XSIZE/(float)YSIZE, 0.1f, 100.0f);
-    camera->setView({0, 0, -20}, {0, 0, 0}, {0, 1, 0});
+    camera->setView({0, 25, -25}, {0, 0, 0}, {0, 1, 0});
     main_scene.cameras.push_back(move(camera));
     //... dalsie kamery
+
+    auto camera2 = std::make_unique<Camera>();
+    camera2->setProjection(90.0f, (float)XSIZE/(float)YSIZE, 0.1f, 100.0f);
+    camera2->setView({0, 5, -10}, {0, 0, 0}, {0, 1, 0});
+    main_scene.cameras.push_back(move(camera2));
+    //... dalsie kamery
     main_scene.currentCameraIndex = 0;
+
+    auto castle = std::make_unique<Castle>();
+    castle->position.x = -6;
+    castle->position.y = 1;
+    castle->position.z = 3;
+    castle->rotation.x = ppgso::PI * 1.5f;
+    castle->rotation.y = ppgso::PI * 1.0f;
+    main_scene.objects.push_back(move(castle));
+
+    auto palm = std::make_unique<Palm>();
+    palm->position.x = -8.5f;
+    palm->position.y = 1;
+    palm->position.z = -2.5f;
+    palm->rotation.x = ppgso::PI * 1.5f;
+    main_scene.objects.push_back(move(palm));
+
+    auto coral = std::make_unique<Coral>();
+    coral->position.x = 7;
+    coral->position.y = 1;
+    coral->position.z = 1;
+    coral->rotation.x = ppgso::PI * 1.5f;
+    main_scene.objects.push_back(move(coral));
 
     //Pridame ryby:
     /*auto fish = std::make_unique<YellowFish>();
@@ -39,32 +68,16 @@ void SceneWindow::initScene() {
     fish2->rotation.z = ppgso::PI;
     main_scene.objects.push_back(move(fish2));*/
 
-    /*auto aquarium = std::make_unique<Aquarium>();
-    aquarium->rotation.x = ppgso::PI * 1.5f;
-    aquarium->position.z = 20;
-    main_scene.objects.push_back(move(aquarium));*/
-
     /*auto snail = std::make_unique<Snail>();
     snail->position.y = -10;
-    snail->rotation.y = ppgso::PI * 0.5f;
-    snail->rotation.x = ppgso::PI * 1.5f;
-    snail->rotation.z = ppgso::PI;
-    main_scene.objects.push_back(move(snail));
+    snail->rotation.x = ppgso::PI * 1.0f;
+    snail->rotation.y = ppgso::PI * 1.0f;
+    main_scene.objects.push_back(move(snail));*/
 
-    auto grass = std::make_unique<Grass>();
-    grass->position.y = -10;
-    main_scene.objects.push_back(move(grass));*/
-
-    /*auto castle = std::make_unique<Castle>();
-    castle->position.y = -10;
-    castle->rotation.x = ppgso::PI * 1.5f;
-    castle->rotation.y = ppgso::PI;
-    main_scene.objects.push_back(move(castle));*/
-
-    /*auto coral = std::make_unique<Coral>();
-    coral->position.y = -10;
-    main_scene.objects.push_back(move(coral));*/
-
+    auto aquarium = std::make_unique<Aquarium>();
+    aquarium->position.y = 0;
+    aquarium->position.z = 0;
+    main_scene.objects.push_back(move(aquarium));
 }
 
 //!Konstruktor
@@ -80,6 +93,11 @@ SceneWindow::SceneWindow() : ppgso::Window{"Projekt Akvarium", XSIZE, YSIZE} {
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
+
+    //Nastavime blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendEquation(GL_FUNC_ADD);
 
     //Inicializujeme scenu
     initScene();
