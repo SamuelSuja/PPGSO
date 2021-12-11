@@ -62,7 +62,7 @@ bool BlueFish::update(Scene &scene, float dt)
                 {
                     position -= speed * dt;
                     speed *= -1.0f;
-                    other_fish->speed *= -1.0f;
+                    other_fish->speed = speed * -1.0f;
                 }
             }
         }

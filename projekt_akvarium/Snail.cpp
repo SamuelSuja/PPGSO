@@ -12,7 +12,7 @@ std::unique_ptr<ppgso::Shader> Snail::shader;
 //!Konstruktor
 Snail::Snail() {
     //Skalovanie
-    scale *= 1.5f;
+    scale *= 0.5f;
 
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(project_vert_glsl, project_frag_glsl);
@@ -20,12 +20,21 @@ Snail::Snail() {
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("Snail.obj");
 }
 
+glm::vec3 Snail::find_curve_coords(float t) const
+{
+    glm::vec3 begin_mid_point = begin_point + t * (mid_point - begin_point);
+    glm::vec3 mid_end_point = mid_point + t * (end_point - mid_point);
+
+    glm::vec3 final_position = begin_mid_point + t * (mid_end_point - begin_mid_point);
+    return final_position;
+}
+
 /*!Updateneme poziciu ryby
 * @param scene Scena, ktoru updatujeme
 * @param delta_time Delta cas
 * @return true to delete the object
 */
-bool Snail::update(Scene &scene, float dt)
+bool Snail::update(Scene &scene, float delta_time)
 {
     /*
     // Hit detection
@@ -50,6 +59,31 @@ bool Snail::update(Scene &scene, float dt)
         }
     }
     */
+    if (current_time >= animation_time)
+    {
+        glm::vec3 temp = begin_point;
+        begin_point = end_point;
+        end_point = temp;
+        current_time = 0.0f;
+    }
+
+    current_time += delta_time;
+    glm::vec3 prev_position = position;
+    position = find_curve_coords(current_time/animation_time);
+
+    glm::vec3 speed = position - prev_position;
+    glm::vec3 normalized_speed = glm::normalize(speed);
+    glm::vec3 z_vector = glm::vec3(0.0f, 0.0f, -1.0f);
+    float angle_cos = glm::dot(normalized_speed, z_vector) / glm::length(normalized_speed) * glm::length(z_vector);
+    float angle_in_rad = glm::acos(angle_cos);
+    if (normalized_speed.x > 0.0f)
+    {
+        rotation.z = -angle_in_rad;
+    }
+    else
+    {
+        rotation.z = angle_in_rad;
+    }
     generateModelMatrix();
     return true;
 }

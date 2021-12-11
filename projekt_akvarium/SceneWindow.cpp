@@ -35,11 +35,11 @@ void SceneWindow::initScene() {
     camera3->setView({0, 20, 0}, {0, 0, 0}, {0, 0, 1});
     main_scene.cameras.push_back(move(camera3));
     //... dalsie kamery
-    main_scene.currentCameraIndex = 0;
+    main_scene.currentCameraIndex = 2;
 
     auto castle = std::make_unique<Castle>();
     castle->position.x = -6;
-    castle->position.y = 1;
+    castle->position.y = 1.5;
     castle->position.z = 3;
     castle->rotation.x = ppgso::PI * 1.5f;
     castle->rotation.y = ppgso::PI * 1.0f;
@@ -47,14 +47,14 @@ void SceneWindow::initScene() {
 
     auto palm = std::make_unique<Palm>();
     palm->position.x = -8.5f;
-    palm->position.y = 1;
+    palm->position.y = 1.5;
     palm->position.z = -2.5f;
     palm->rotation.x = ppgso::PI * 1.5f;
     main_scene.objects.push_back(move(palm));
 
     auto coral = std::make_unique<Coral>();
     coral->position.x = 7;
-    coral->position.y = 1;
+    coral->position.y = 1.5;
     coral->position.z = 1;
     coral->rotation.x = ppgso::PI * 1.5f;
     main_scene.objects.push_back(move(coral));
@@ -78,8 +78,10 @@ void SceneWindow::initScene() {
     fish2->speed = glm::vec3(-1.0f, 0.0f, 0.0f);
     main_scene.objects.push_back(move(fish2));
 
-    /*auto snail = std::make_unique<Snail>();
-    snail->position.y = 0;
+    auto snail = std::make_unique<Snail>();
+    snail->position.x = 1;
+    snail->position.y = 1.5;
+    snail->position.z = 4;
     snail->rotation.x = ppgso::PI * 1.0f;
     snail->rotation.y = ppgso::PI * 1.0f;
     main_scene.objects.push_back(move(snail));

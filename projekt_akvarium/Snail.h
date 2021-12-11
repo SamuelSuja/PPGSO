@@ -12,6 +12,14 @@ private:
     static std::unique_ptr<ppgso::Shader> shader;
     static std::unique_ptr<ppgso::Texture> texture;
 
+    glm::vec3 begin_point = glm::vec3(1.0f, 1.5f, 4.0f);
+    glm::vec3 mid_point = glm::vec3(1.0f, 1.5f, -4.0f);
+    glm::vec3 end_point = glm::vec3(-5.0f, 1.5f, -4.0f);
+    float animation_time = 25.0f;
+    float current_time = 0.0f;
+
+    glm::vec3 find_curve_coords(float t) const;
+
 public:
     //!Konstruktor
     Snail();
