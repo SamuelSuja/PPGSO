@@ -9,7 +9,7 @@
 #include "Palm.h"
 #include "Castle.h"
 #include "Coral.h"
-#include "AquariumGround.h"
+#include "Water.h"
 
 //!Vytvorenie sceny
 void SceneWindow::initScene() {
@@ -26,8 +26,14 @@ void SceneWindow::initScene() {
 
     auto camera2 = std::make_unique<Camera>();
     camera2->setProjection(90.0f, (float)XSIZE/(float)YSIZE, 0.1f, 100.0f);
-    camera2->setView({0, 5, -10}, {0, 0, 0}, {0, 1, 0});
+    camera2->setView({0, 7, -15}, {0, 7, 0}, {0, 1, 0});
     main_scene.cameras.push_back(move(camera2));
+    //... dalsie kamery
+
+    auto camera3 = std::make_unique<Camera>();
+    camera3->setProjection(90.0f, (float)XSIZE/(float)YSIZE, 0.1f, 100.0f);
+    camera3->setView({0, 20, 0}, {0, 0, 0}, {0, 0, 1});
+    main_scene.cameras.push_back(move(camera3));
     //... dalsie kamery
     main_scene.currentCameraIndex = 0;
 
@@ -54,25 +60,34 @@ void SceneWindow::initScene() {
     main_scene.objects.push_back(move(coral));
 
     //Pridame ryby:
-    /*auto fish = std::make_unique<YellowFish>();
-    fish->position.y = 5;
-    fish->rotation.y = ppgso::PI * 0.5f;
+    auto fish = std::make_unique<YellowFish>();
+    fish->position.y = 10;
+    fish->position.x = -3;
+    fish->position.z = -3;
     fish->rotation.x = ppgso::PI * 1.5f;
-    fish->rotation.z = ppgso::PI * 1.5f;
+    fish->rotation.y = ppgso::PI * 1.5f;
+    fish->speed = glm::vec3(1.0f, 0.0f, 0.0f);
     main_scene.objects.push_back(move(fish));
 
     auto fish2 = std::make_unique<BlueFish>();
-    fish2->position.y = -10;
-    fish2->rotation.y = ppgso::PI * 0.5f;
+    fish2->position.y = 10;
+    fish2->position.x = 3;
+    fish2->position.z = 2;
     fish2->rotation.x = ppgso::PI * 1.5f;
-    fish2->rotation.z = ppgso::PI;
-    main_scene.objects.push_back(move(fish2));*/
+    fish2->rotation.y = ppgso::PI * 1.0f;
+    fish2->speed = glm::vec3(-1.0f, 0.0f, 0.0f);
+    main_scene.objects.push_back(move(fish2));
 
     /*auto snail = std::make_unique<Snail>();
-    snail->position.y = -10;
+    snail->position.y = 0;
     snail->rotation.x = ppgso::PI * 1.0f;
     snail->rotation.y = ppgso::PI * 1.0f;
-    main_scene.objects.push_back(move(snail));*/
+    main_scene.objects.push_back(move(snail));
+
+    /*auto water = std::make_unique<Water>();
+    water->position.y = 5;
+    water->position.z = 0;
+    main_scene.objects.push_back(move(water));*/
 
     auto aquarium = std::make_unique<Aquarium>();
     aquarium->position.y = 0;

@@ -13,6 +13,8 @@ private:
     static std::unique_ptr<ppgso::Texture> texture;
 
 public:
+    glm::vec3 speed;
+
     //!Konstruktor
     YellowFish();
 

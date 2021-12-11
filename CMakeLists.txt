@@ -234,7 +234,8 @@ add_executable(akvarium_main
         src/projekt_akvarium/AquariumGround.cpp
         src/projekt_akvarium/AquariumCorner.cpp
         src/projekt_akvarium/AquariumWallShort.cpp
-        src/projekt_akvarium/AquariumWallLong.cpp)
+        src/projekt_akvarium/AquariumWallLong.cpp
+        src/projekt_akvarium/Water.cpp)
 target_link_libraries(akvarium_main ppgso shaders)
 install(TARGETS akvarium_main DESTINATION .)
 

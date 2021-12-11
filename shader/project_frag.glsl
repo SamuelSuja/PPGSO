@@ -14,6 +14,11 @@ uniform vec3 SecondLightColor;
 uniform vec3 ThirdLightPosition;
 uniform vec3 ThirdLightColor;
 
+// Vlastnosti materialu
+uniform vec3 MaterialAmbient = vec3(1.0f, 1.0f, 1.0f);
+uniform vec3 MaterialDiffuse = vec3(1.0f, 1.0f, 1.0f);
+uniform vec3 MaterialSpecular = vec3(1.0f, 1.0f, 1.0f);
+
 uniform int Mode = 0;
 
 // Pozicia kamery
@@ -67,9 +72,13 @@ vec4 calculate_light_color(vec3 light_position, vec3 light_color)
 
     //Vypocet farby pomoucou svetelnej zlozky a textury
     //!! Textury invertnute pre komatibilitu s .obj subormi
+    vec4 combined_ambient = vec4(MaterialAmbient * ambient, 1.0f);
+    vec4 combined_diffuse = vec4(MaterialDiffuse * diffuse, 1.0f);
+    vec4 combined_specular = vec4(MaterialSpecular * specular, 1.0f);
+
     vec4 result_color = (texture(Texture, vec2(vert_tex_coord.x, 1.0f - vert_tex_coord.y) + TextureOffset)
-    * (diffuse * attenuation + ambient) + texture(Texture, vec2(vert_tex_coord.x, 1.0f - vert_tex_coord.y)
-    + TextureOffset) * specular * attenuation) * vec4(light_color, 1.0f);
+    * (combined_diffuse * attenuation + combined_ambient) + texture(Texture, vec2(vert_tex_coord.x, 1.0f - vert_tex_coord.y)
+    + TextureOffset) * combined_specular * attenuation) * vec4(light_color, 1.0f);
     return result_color;
 }
 
@@ -122,9 +131,9 @@ void main() {
             // check whether fragment output is higher than threshold, if so output as brightness color
             float brightness = dot(light_color.rgb, vec3(0.2126, 0.7152, 0.0722));
             if (brightness > 1.0)
-            fragment_color = vec4(light_color.rgb, Transparency);
+                fragment_color = vec4(light_color.rgb, Transparency);
             else
-            fragment_color = vec4(light_color.rgb * 0.10f, Transparency);
+                fragment_color = vec4(light_color.rgb * 0.10f, Transparency);
         }
     }
 }

@@ -12,7 +12,7 @@ std::unique_ptr<ppgso::Shader> Palm::shader;
 //!Konstruktor
 Palm::Palm() {
     //Skalovanie
-    scale *= 0.015f;
+    scale *= 0.010f;
 
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(project_vert_glsl, project_frag_glsl);

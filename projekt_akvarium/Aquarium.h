@@ -15,10 +15,10 @@ class Aquarium final : public Object
 private:
     std::list<std::unique_ptr<Object>> components;
 
+public:
     //Skalovanie
     float scale_amount;
 
-public:
     //!Konstruktor
     Aquarium();
 
