@@ -19,7 +19,7 @@ uniform vec3 MaterialAmbient = vec3(1.0f, 1.0f, 1.0f);
 uniform vec3 MaterialDiffuse = vec3(1.0f, 1.0f, 1.0f);
 uniform vec3 MaterialSpecular = vec3(1.0f, 1.0f, 1.0f);
 
-uniform int Mode = 0;
+uniform float PostProcessingMode = 0;
 
 // Pozicia kamery
 uniform vec3 CameraPosition;
@@ -87,7 +87,7 @@ void main() {
     vec4 second_light_color = calculate_light_color(SecondLightPosition, SecondLightColor);
     vec4 third_light_color = calculate_light_color(ThirdLightPosition, ThirdLightColor);
     vec4 light_color = first_light_color + second_light_color + third_light_color;
-    switch(Mode)
+    switch(int(PostProcessingMode))
     {
         case 0:
         {

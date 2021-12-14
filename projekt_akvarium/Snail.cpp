@@ -84,6 +84,7 @@ bool Snail::update(Scene &scene, float delta_time)
     {
         rotation.z = angle_in_rad;
     }
+
     generateModelMatrix();
     return true;
 }
@@ -92,6 +93,9 @@ bool Snail::update(Scene &scene, float delta_time)
 * @param scene Scena, v ktorej renderujeme*/
 void Snail::render(Scene &scene) {
     shader->use();
+
+    // Set up post processing
+    shader->setUniform("PostProcessingMode", scene.post_processing_mode);
 
     // Set up light
     shader->setUniform("FirstLightPosition", scene.light_positions[0]);

@@ -12,6 +12,7 @@ std::unique_ptr<ppgso::Shader> AquariumGround::shader;
 //!Konstruktor
 AquariumGround::AquariumGround() {
     //Skalovanie
+    scale*=15.0f;
 
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(project_vert_glsl, project_frag_glsl);
@@ -58,6 +59,9 @@ bool AquariumGround::update(Scene &scene, float dt)
 * @param scene Scena, v ktorej renderujeme*/
 void AquariumGround::render(Scene &scene) {
     shader->use();
+
+    // Set up post processing
+    shader->setUniform("PostProcessingMode", scene.post_processing_mode);
 
     // Set up light
     shader->setUniform("FirstLightPosition", scene.light_positions[0]);

@@ -59,6 +59,9 @@ bool AquariumCorner::update(Scene &scene, float dt)
 void AquariumCorner::render(Scene &scene) {
     shader->use();
 
+    // Set up post processing
+    shader->setUniform("PostProcessingMode", scene.post_processing_mode);
+
     // Set up light
     shader->setUniform("FirstLightPosition", scene.light_positions[0]);
     shader->setUniform("FirstLightColor", scene.light_colors[0]);

@@ -83,7 +83,7 @@ bool YellowFish::update(Scene &scene, float dt)
     int turn_chance = rand() % 100;
     if (turn_chance < 5)
     {
-        speed.x += 2.5f* dt;
+        speed.x += 4.0f* dt;
         if (speed.x > 2.0f)
         {
             speed.x = 2.0f;
@@ -91,7 +91,7 @@ bool YellowFish::update(Scene &scene, float dt)
     }
     else if (turn_chance < 10)
     {
-        speed.x -= 2.5f * dt;
+        speed.x -= 4.0f * dt;
         if (speed.x < -2.0f)
         {
             speed.x = -2.0f;
@@ -99,7 +99,7 @@ bool YellowFish::update(Scene &scene, float dt)
     }
     else if (turn_chance < 15)
     {
-        speed.z += 2.5f * dt;
+        speed.z += 4.0f * dt;
         if (speed.z > 2.0f)
         {
             speed.z = 2.0f;
@@ -107,7 +107,7 @@ bool YellowFish::update(Scene &scene, float dt)
     }
     else if (turn_chance < 20)
     {
-        speed.z -= 2.5f * dt;
+        speed.z -= 4.0f * dt;
         if (speed.z < -2.0f)
         {
             speed.z = -2.0f;
@@ -134,6 +134,9 @@ bool YellowFish::update(Scene &scene, float dt)
 * @param scene Scena, v ktorej renderujeme*/
 void YellowFish::render(Scene &scene) {
     shader->use();
+
+    // Set up post processing
+    shader->setUniform("PostProcessingMode", scene.post_processing_mode);
 
     // Set up light
     shader->setUniform("FirstLightPosition", scene.light_positions[0]);

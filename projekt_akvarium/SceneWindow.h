@@ -32,7 +32,7 @@ private:
     void enablePolygonCulling();*/
 
     //!Vytvorenie sceny
-    void initScene();
+    void initScene(int width, int height);
 
 public:
     //!Konstruktor

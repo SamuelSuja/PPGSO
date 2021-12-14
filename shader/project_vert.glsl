@@ -9,8 +9,6 @@ uniform mat4 ProjectionMatrix;
 uniform mat4 ViewMatrix;
 uniform mat4 ModelMatrix;
 
-uniform float target_width = 1200.0f;
-
 // This will be passed to the fragment shader
 out vec2 vert_tex_coord;
 
