@@ -1,5 +1,4 @@
-#include <glm/glm.hpp>
-
+//Headery z projektu:
 #include "Camera.h"
 
 /*!Nastavime premenne potrebne pre view maticu

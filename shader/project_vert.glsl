@@ -1,32 +1,35 @@
 #version 330
-// The inputs will be fed by the vertex buffer objects
+//Vstupna pozicia, pozicia textury, normala
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec2 tex_coord;
 layout(location = 2) in vec3 normal;
 
-// Matrices as program attributes
+//Transformacne matice
 uniform mat4 ProjectionMatrix;
 uniform mat4 ViewMatrix;
 uniform mat4 ModelMatrix;
 
-// This will be passed to the fragment shader
+//Vystupne koordinaty textury do fragment shaderu
 out vec2 vert_tex_coord;
 
-// Normal to pass to the fragment shader
-out vec4 vert_normal;
+//Vystupne normaly do fragment shaderu
+out vec3 vert_normal;
 
+//Vystupne pozicie do fragment shaderu
 out vec3 vert_position;
 
+//Funkcia main
 void main() {
-    // Copy the input to the fragment shader
+    //Preposleme koordinaty textury do fragment shaderu
     vert_tex_coord = tex_coord;
 
-    // Normal in world coordinates
-    vert_normal = normalize(ModelMatrix * vec4(normal, 0.0f));
+    //Preposleme normaly do fragment shaderu
+    vert_normal = normalize(normal);
 
-    vert_position = position;
+    //Preposleme pozicie do fragment shaderu
+    vert_position = vec3(ModelMatrix * vec4(position, 1.0f));
 
-    // Calculate the final position on screen
+    //Vypocet pozicie na obrazovke
     gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(position, 1.0);
 
 }

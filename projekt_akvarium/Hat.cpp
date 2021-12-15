@@ -1,43 +1,57 @@
 //Headery z projektu:
-#include "Coral.h"
+#include "Hat.h"
 #include "Scene.h"
 
 //Shadery:
 #include <shaders/project_vert_glsl.h>
 #include <shaders/project_frag_glsl.h>
 
-//Objekt koralu:
-std::unique_ptr<ppgso::Mesh> Coral::mesh;
-std::unique_ptr<ppgso::Texture> Coral::texture;
-std::unique_ptr<ppgso::Shader> Coral::shader;
+//Objekt klobuku:
+std::unique_ptr<ppgso::Mesh> Hat::mesh;
+std::unique_ptr<ppgso::Texture> Hat::texture;
+std::unique_ptr<ppgso::Shader> Hat::shader;
 
 //!Konstruktor
-Coral::Coral()
+Hat::Hat()
 {
     //Skalovanie
-    scale *= 0.15f;
+    scale *= 0.1f;
 
     //Pridame texturu, mesh a shader
     if (!shader) shader = std::make_unique<ppgso::Shader>(project_vert_glsl, project_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Coral.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("Coral.obj");
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Hat.bmp"));
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("Hat.obj");
+
+    //Okuliare
+    sunglasses = std::make_unique<Sunglasses>();
+    sunglasses->position = glm::vec3(-13.0f,-5.0f,-15.0f);
 }
 
-/*!Updateneme poziciu koralu
+/*!Updateneme poziciu klobuku
 * @param scene Scena, ktoru updatujeme
 * @param delta_time Delta cas
 * @return false pre zmazanie objektu*/
-bool Coral::update(Scene &scene, float delta_time)
+bool Hat::update(Scene &scene, float delta_time)
 {
+    //Ulozime maticu rodica
+    glm::mat4 parent_model_matrix = model_matrix;
+
     //Vytvorime model maticu
     generate_model_matrix();
+
+    //Aplikujeme transformacie rodica na transformacie tohto objektu
+    model_matrix = parent_model_matrix * model_matrix;
+
+    //Posleme model maticu dietatu a updatneme ho
+    sunglasses->model_matrix = model_matrix;
+    sunglasses->update(scene, delta_time);
 
     return true;
 }
 
 /*!Renderovanie objektu
 * @param scene Scena, v ktorej renderujeme*/
-void Coral::render(Scene &scene)
+void Hat::render(Scene &scene)
 {
     //Pouzitie shaderu
     shader->use();
@@ -63,4 +77,7 @@ void Coral::render(Scene &scene)
 
     //Renderovanie meshu
     mesh->render();
+
+    //Renderovanie dietata - okuliarov
+    sunglasses->render(scene);
 }

@@ -1,7 +1,9 @@
 #pragma once
 
+//Headery z projektu:
 #include "Object.h"
 
+//PPGSO kniznice:
 #include <ppgso/ppgso.h>
 
 class AquariumWallLong final : public Object
@@ -16,16 +18,16 @@ public:
     //!Konstruktor
     AquariumWallLong();
 
-    /*!Updateneme poziciu ryby
+    /*!Updateneme poziciu dlhej steny akvaria
     * @param scene Scena, ktoru updatujeme
     * @param delta_time Delta cas
-    * @return true to delete the object
-    */
+    * @return false pre zmazanie objektu*/
     bool update(Scene &scene, float delta_time) override;
 
     /*!Renderovanie objektu
     * @param scene Scena, v ktorej renderujeme*/
     void render(Scene &scene) override;
 
+    //!Lokalna pozicia v akvariu
     glm::vec3 local_position = {0.0f, 0.0f, 0.0f};
 };

@@ -1,7 +1,12 @@
 #pragma once
 
+//STL kniznice:
 #include <iostream>
+
+//GLM kniznice:
 #include <glm/glm.hpp>
+
+//PPGSO kniznice:
 #include <ppgso/ppgso.h>
 
 //!Objekt kamery

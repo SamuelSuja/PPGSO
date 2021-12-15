@@ -1,6 +1,3 @@
-//STL kniznice:
-#include <iostream>
-
 //PPGSO kniznice:
 #include <ppgso/ppgso.h>
 

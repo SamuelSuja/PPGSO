@@ -218,7 +218,7 @@ install(TARGETS task7_particles DESTINATION .)
 
 # projekt akvarium
 add_executable(akvarium_main
-        src/projekt_akvarium/akvarium_main.cpp
+        src/projekt_akvarium/aquarium_main.cpp
         src/projekt_akvarium/SceneWindow.cpp
         src/projekt_akvarium/Object.cpp
         src/projekt_akvarium/Scene.cpp
@@ -235,9 +235,10 @@ add_executable(akvarium_main
         src/projekt_akvarium/AquariumCorner.cpp
         src/projekt_akvarium/AquariumWallShort.cpp
         src/projekt_akvarium/AquariumWallLong.cpp
-        src/projekt_akvarium/Water.cpp
         src/projekt_akvarium/Bubble.cpp
-        src/projekt_akvarium/Food.cpp)
+        src/projekt_akvarium/Food.cpp
+        src/projekt_akvarium/Sunglasses.cpp
+        src/projekt_akvarium/Hat.cpp)
 target_link_libraries(akvarium_main ppgso shaders)
 install(TARGETS akvarium_main DESTINATION .)
 

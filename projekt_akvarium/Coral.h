@@ -1,7 +1,9 @@
 #pragma once
 
+//Headery z projektu:
 #include "Object.h"
 
+//PPGSO kniznice:
 #include <ppgso/ppgso.h>
 
 class Coral final : public Object
@@ -16,11 +18,10 @@ public:
     //!Konstruktor
     Coral();
 
-    /*!Updateneme poziciu ryby
+    /*!Updateneme poziciu koralu
     * @param scene Scena, ktoru updatujeme
     * @param delta_time Delta cas
-    * @return true to delete the object
-    */
+    * @return false pre zmazanie objektu*/
     bool update(Scene &scene, float delta_time) override;
 
     /*!Renderovanie objektu

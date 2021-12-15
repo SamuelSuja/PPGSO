@@ -1,7 +1,9 @@
 #pragma once
 
+//Headery z projektu:
 #include "Object.h"
 
+//PPGSO kniznice:
 #include <ppgso/ppgso.h>
 
 class Bubble final : public Object
@@ -13,15 +15,16 @@ private:
     static std::unique_ptr<ppgso::Texture> texture;
 
 public:
+    //!Vektor rychlosti
     glm::vec3 speed;
+
     //!Konstruktor
     Bubble();
 
     /*!Updateneme poziciu ryby
     * @param scene Scena, ktoru updatujeme
     * @param delta_time Delta cas
-    * @return true to delete the object
-    */
+    * @return false pre zmazanie objektu*/
     bool update(Scene &scene, float delta_time) override;
 
     /*!Renderovanie objektu

@@ -25,12 +25,6 @@ private:
     //!Premenna ktora urci, ci chceme aby animacia bola spustena alebo nie
     bool animate = true;
 
-    /*//
-    void enableZBuffer();
-
-    //
-    void enablePolygonCulling();*/
-
     //!Vytvorenie sceny
     void initScene(int width, int height);
 

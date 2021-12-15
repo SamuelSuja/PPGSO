@@ -1,7 +1,9 @@
 #pragma once
 
+//Headery z projektu:
 #include "Object.h"
 
+//PPGSO kniznice:
 #include <ppgso/ppgso.h>
 
 class Food final : public Object
@@ -13,15 +15,19 @@ private:
     static std::unique_ptr<ppgso::Texture> texture;
 
 public:
+    //!Kmitanie:
+    glm::vec3 oscillate_direction = glm::vec3(0.0f, 0.0f, 0.0f);
+
+    //!Vektor rychlosti
     glm::vec3 speed;
+
     //!Konstruktor
     Food();
 
-    /*!Updateneme poziciu ryby
+    /*!Updateneme poziciu jedla
     * @param scene Scena, ktoru updatujeme
     * @param delta_time Delta cas
-    * @return true to delete the object
-    */
+    * @return false pre zmazanie objektu*/
     bool update(Scene &scene, float delta_time) override;
 
     /*!Renderovanie objektu
